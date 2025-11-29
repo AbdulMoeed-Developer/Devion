@@ -1,0 +1,96 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container" style="color: black;">
+<h1 style="color: black;"><%= msg.msg %></h1>
+<h5 style="font-weight: 200;"> Author: <%= msg.user ? msg.user.username : 'Unknown' %></h5>
+<hr>
+<button class="btn btn-primary">Reply</button>
+<% if (currentUser && msg.user._id.equals(currentUser._id)) { %>
+    <form action="/message/<%= msg._id %>?_method=DELETE" method="POST">
+        <button class="btn btn-info" type="submit">Delete</button>
+    </form>
+<% } %>
+<a href="/message" class="btn btn-warning">Back</a>
+</div>
+
+<!-- // router.post('/', async (req, res) => {
+    //     try {
+    //         const { text } = req.body; // Assuming message text is sent in the request body
+    //         const newMessage = new Message({ text });
+    //         await newMessage.save();
+    //         res.redirect('/messages'); // Redirect to the messages page after saving
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).send("Error creating message");
+    //     }
+    // });
+    
+    
+    // const Todo = require('../models/todo');
+    
+    // const session = require('express-session')
+    // const flash = require('connect-flash')
+    
+    
+    // router.get('/todo' , catchAsync( async (req , res)=>{
+    //     const tasks = await Todo.find();
+    //     res.render('todo' , {tasks});
+    // }))
+    // router.get('/todo/new' , (req , res)=>{
+    //     res.render('new')
+    // })
+    // router.get('/todo/show/:id' ,catchAsync( async (req , res)=> {
+    //     const {id} = req.params;
+    //     const task = await Todo.findById(id);
+    //     if(!task){
+    //        req.flash('error' , 'Cant find that task');
+    //        return res.redirect('/todo')
+    //     }
+    //     res.render('show' , {task})
+    // }))
+    // router.get('/todo/:id/edit' , catchAsync( async (req , res)=>{
+    //     const {id} = req.params;
+    //     const task = await Todo.findById(id);
+    //     if(!task){
+    //         req.flash('error' , 'The task you are trying to edit does not exist');
+    //         return res.redirect('/todo')
+    //      }
+    //     res.render('edit' ,{task});
+    // }))
+    // router.get('/about' , (req ,res)=>{
+    //     res.render('about');
+    // })
+    // router.put('/todo/:id', catchAsync(async (req, res) => {
+    //     const { id } = req.params;
+    //     const task = await Todo.findByIdAndUpdate(id, { ...req.body }, { new: true });
+    //     req.flash('success','Successfully edited the task');
+    //     res.redirect(`/todo/show/${task._id}`);
+    // }));
+    // router.post('/todo' , catchAsync(async (req , res, next)=>{
+    //     const joiTodoSchema = joi.object({
+    //         todo: joi.string().required(),
+    //         priority: joi.string().valid('Low', 'Medium', 'High').required(),
+    //         description: joi.string().required(),
+    //         date: joi.date().required()
+    //     }).required();
+    //         const {error} = joiTodoSchema.validate(req.body);
+    //         if(error){
+    //             next(error)
+    //         }
+    //         const {todo , priority , description , date} = req.body;
+    //         const newTodo = new Todo ({
+    //         todo,
+    //         priority,
+    //         description,
+    //         date : new Date(date)
+    //     })
+    //     await newTodo.save();
+    //     req.flash('success' , 'Successfully made a new Task');
+    //     res.redirect('/todo');    
+    // }))
+    // router.delete('/todo/:id', catchAsync( async (req, res) => {
+    //     const { id } = req.params;
+    //     await Todo.findByIdAndDelete(id);
+    //     req.flash('success' , 'Successfully deleted a Task')
+    //     res.redirect('/todo');
+    // })); -->

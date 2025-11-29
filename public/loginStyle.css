@@ -1,0 +1,21 @@
+/* html , body{
+    height: 100%;
+    width: 100%;
+} */
+/* h1{
+    color: white;
+} */
+
+.form{
+background: rgba(255, 255, 255, 0.5);
+padding: 20px;
+border-radius: 15px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+width: 300px;
+margin-left: 50px;
+}
+.btn:hover{
+    background-color: rgb(19, 201, 101);
+    border-radius: 30px;
+    transition: 1s;
+}

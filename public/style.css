@@ -1,0 +1,30 @@
+/* .btn {
+    background-color: rgba(0, 47, 255, 0.5);
+    padding: 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin: 10px;
+    width: 40%;
+    border: none;
+    color: black;
+    font-size: 18px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.btn:hover{
+    background-color: hsl(239, 100%, 62%);
+    border-radius: 30px;
+    transition: 1s;
+    color: white;
+} */
+
+ body{
+  background-image: url('./Pick\ An\ Interest.png');
+  background-size: cover;   /* Ensures the image covers the entire screen */
+  background-attachment: fixed;  /* Optional: Keeps it in place while scrolling */
+}
+h1{
+    color: white; 
+    font-weight: lighter; 
+    font-size: 4rem;
+  }

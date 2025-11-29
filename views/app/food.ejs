@@ -1,0 +1,107 @@
+<% layout('layouts/boilerplate') %>
+<div class="container">
+    <link rel="stylesheet" href="/style1.css">
+    <div class="background">
+        <h1>Food And Cuisine</h1>
+        <button class="btn btn-primary mb-2">READ MORE</button>
+        
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <button class="btn btn-outline-danger btn-sm">Likes: <%= Math.floor(Math.random()*10)+1 %></button>
+                            <button class="btn btn-outline-secondary btn-sm">Dislike</button>
+                        </div>
+                        
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1522199710521-72d69614c702?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <button class="btn btn-outline-danger btn-sm">Likes: <%= Math.floor(Math.random()*10)+1 %></button>
+                            <button class="btn btn-outline-secondary btn-sm">Dislike</button>
+                        </div>
+                        
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <button class="btn btn-outline-danger btn-sm">Likes: <%= Math.floor(Math.random()*10)+1 %></button>
+                            <button class="btn btn-outline-secondary btn-sm">Dislike</button>
+                        </div>
+                        
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <button class="btn btn-outline-danger btn-sm">Likes: <%= Math.floor(Math.random()*10)+1 %></button>
+                            <button class="btn btn-outline-secondary btn-sm">Dislike</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="container text-center">
+                    <div class="row">
+                        <% foodImages.forEach(image => {%>
+                            <div class="col-md-6 col-lg-3 mb-4">
+                                <div class="card">
+                                    <img src="<%= image.image[0].url %>" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <p class="card-text"><%= image.description %></p>
+                                        <button class="btn btn-outline-danger btn-sm">Likes: <%= Math.floor(Math.random()*10)+1 %></button>
+                            <button class="btn btn-outline-secondary btn-sm">Dislike</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        <% });  %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" class="img-thumbnail" alt="..."> -->
+<!-- <img src="https://images.unsplash.com/photo-1522199710521-72d69614c702?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" class="img-thumbnail" alt="..."> -->
+<!-- <img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" class="img-thumbnail" alt="..."> -->
+<!-- <img src="https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D" class="img-thumbnail" alt="..."> -->
+<form action="/food" method="POST" enctype="multipart/form-data">
+    <nav class="navbar fixed-bottom navbar-light" style="background-color: rgba(0, 128, 255, 0.85);">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 mt-1">
+        <input type="text" class="form-control" name="imageDescription" placeholder="Write About The Image">
+    </div>
+    <div class="col-md-6 mt-1">
+        <input type="file" name="image" class="form-control" placeholder="Upload An Image" required multiple>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-outline-info mt-1">UPLOAD</button>
+    </div>
+    </nav>
+  </form>
+  
+</div>
+</div>

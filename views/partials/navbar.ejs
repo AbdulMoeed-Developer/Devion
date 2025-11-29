@@ -1,0 +1,23 @@
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark" style=" z-index: 1; background-color: rgba(0, 128, 255, 0.85); ">
+   <div class="container-fluid">
+       <a class="navbar-brand" href="/main"><b>DEVION</b></a>
+       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+       </button>
+       <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+             <a class="nav-link" href="/main">Home</a>
+             <a class="nav-link" href="/message">Messages</a>
+          </div>
+          <div class="navbar-nav ms-auto">
+            <% if(!currentUser) {  %>
+             <a class="nav-link" href="/users/loginForm">Login</a>
+             <a class="nav-link" href="/users/SignUpForm">Sign Up</a>
+             <% } else { %>
+             <a class="nav-link" href="/users/logout">Sign Out</a>
+             <% } %>
+            </div>
+       </div>
+    </div>
+  </nav>

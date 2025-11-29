@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="container">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="/style1.css">
+<style>
+  body{
+    color: black;
+  }
+</style>
+<div class="background">
+<h1>Messages</h1>
+<div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+        Be respectful and mind your language
+      </a>
+<% for(let oneMsg of allMsg) { %>
+      <a href="/message/show/<%= oneMsg._id %>" class="list-group-item list-group-item-action" style="background-color: rgba(255, 255, 255, 0.5);">  <%= oneMsg.msg %> 
+        <span class="badge text-bg-primary rounded-pill"><%= oneMsg.user.username %></span></a> <% } %>
+</div>
+<!-- Show Messages Here -->
+
+<form action="/message" method="post">
+<nav class="navbar fixed-bottom navbar-light" style="background-color: rgba(0, 60, 255, 0.8);">
+    <div class="container-fluid">
+      <input type="text" name="msg" class="form-control" placeholder="Type Your Message" focus>
+      <button class="btn btn-primary mt-3" type="submit">SEND</button>
+    </div>
+  </nav>
+</form>
+</div>
+</div>
+
+
+
+<!-- <div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+      The current link item
+    </a>
+    <a href="#" class="list-group-item list-group-item-action">A second link item</a>
+    <a href="#" class="list-group-item list-group-item-action">A third link item</a>
+    <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+    <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">A disabled link item</a>
+  </div> -->
