@@ -22,7 +22,7 @@ const User = require('./modals/user')
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
-        console.log("CONNECTION OPEN!!!")
+        console.log("CONNECTION OPEN!!!"+process.env.MONGO_URL)
     })
     .catch(err => {
         console.log("OH NO ERROR!!!!")
