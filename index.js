@@ -27,6 +27,11 @@ mongoose.connect(process.env.MONGO_URL, {
 app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use((req, res, next) => {
+  res.locals.currentUser = null;
+  next();
+});
+
 
 // 🔹 Middleware
 app.use(express.static('public'));
