@@ -1,64 +1,45 @@
-if(process.env.NODE_ENV !== "production"){
-    require('dotenv').config()
+if (process.env.NODE_ENV !== "production") {
+  require('dotenv').config();
 }
 
-
-const express = require('express')
+const express = require('express');
 const app = express();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const path = require('path');
-const ejsMate = require('ejs-mate')
-const catchAsync = require('./utils/catchAsync')
-const ExpressError = require('./utils/ExpressError')
-const session = require('express-session')
-const {MongoStore} = require("connect-mongo");
+const ejsMate = require('ejs-mate');
+const ExpressError = require('./utils/ExpressError');
+const session = require('express-session');
+const { MongoStore } = require("connect-mongo");
+const flash = require('connect-flash');
+const methodOverride = require('method-override');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./modals/user');
 
-const flash = require('connect-flash')
+// 🔹 Mongo
+mongoose.connect(process.env.MONGO_URL, {
+  serverSelectionTimeoutMS: 5000
+})
+.then(() => console.log("CONNECTION OPEN!!!"))
+.catch(err => console.log(err));
+
+// 🔹 View engine
+app.engine('ejs', ejsMate);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+// 🔹 Middleware
 app.use(express.static('public'));
-const methodOverride = require('method-override')
-const passport = require('passport')
-const LocalStrategy = require('passport-local')
-const User = require('./modals/user')
-
-mongoose.connect(process.env.MONGO_URL)
-    .then(() => {
-        console.log("CONNECTION OPEN!!!")
-    })
-    .catch(err => {
-        console.log("OH NO ERROR!!!!")
-        console.log(err)
-    })
-
-    const mainRoutes = require('./routes/mainRoutes');
-    const userRoutes = require('./routes/userRoutes');
-    const artRoutes = require('./routes/artRoutes');
-    const foodRoutes = require('./routes/foodRoutes');
-    const sportRoutes = require('./routes/sportRoutes');
-    const travelRoutes = require('./routes/travelRoutes');
-    const messageRoutes = require('./routes/messageRoutes')
-    
-    
-
-
-app.engine('ejs' , ejsMate);
-// telling express that we want to use ejsMate instead of default one its relying on
-app.set('views' , path.join(__dirname,'views'));
-app.set('view engine' , 'ejs');
-app.use(express.static('public'));
-
 app.use(methodOverride('_method'));
-app.use(express.urlencoded({extended : true}))
+app.use(express.urlencoded({ extended: true }));
 
+// 🔹 Session store
 const store = MongoStore.create({
   mongoUrl: process.env.MONGO_URL,
   touchAfter: 24 * 3600,
   crypto: {
-        secret: process.env.SESSION_SECRET
-    }
-});
-
-store.on("error", function (e) {
-  console.log("SESSION STORE ERROR", e);
+    secret: process.env.SESSION_SECRET
+  }
 });
 
 app.use(session({
@@ -73,50 +54,47 @@ app.use(session({
   }
 }));
 
-app.use(flash())
+app.use(flash());
+
+// 🔹 Passport (ORDER MATTERS)
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
-
-
-
-app.get("/", (req, res) => {
-  res.redirect("/main"); // OR res.render("home")
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user || null;
+  next();
 });
 
-// Use the routes
-app.use('/main', mainRoutes); // Main routes for the homepage or general routes
-app.use('/users', userRoutes); // Routes for user-related pages
-app.use('/arts', artRoutes); // Routes for art-related pages
-app.use('/food', foodRoutes); // Routes for food-related pages
-app.use('/sport', sportRoutes); // Routes for sports-related pages
-app.use('/travel', travelRoutes); // Routes for travel-related pages
-app.use('/message' , messageRoutes)
-// console.log(mainRoutes); // Should log a router object
-// console.log(userRoutes);
-// console.log(artRoutes);
-// console.log(foodRoutes);
-// console.log(sportRoutes);
-// console.log(travelRoutes);
+// 🔹 Routes
+app.use('/main', require('./routes/mainRoutes'));
+app.use('/users', require('./routes/userRoutes'));
+app.use('/arts', require('./routes/artRoutes'));
+app.use('/food', require('./routes/foodRoutes'));
+app.use('/sport', require('./routes/sportRoutes'));
+app.use('/travel', require('./routes/travelRoutes'));
+app.use('/message', require('./routes/messageRoutes'));
 
+app.get("/", (req, res) => {
+  res.redirect("/main");
+});
 
-
+// 🔹 404
 app.all(/(.*)/, (req, res, next) => {
-    next(new ExpressError('Page Not Found' , 404))
- })
+  next(new ExpressError('Page Not Found', 404));
+});
 
- app.use((err,req,res,next)=>{
-     const { statusCode = 500 } = err;
-     if(!err.message) err.message = "Oh no something went wrong!";
-     res.status(statusCode).render('error' , {err} );
- })
+// 🔹 Error handler
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Oh no, something went wrong!";
+  res.status(statusCode).render('error', { err });
+});
 
- const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Serving on port ${PORT}`);
 });
