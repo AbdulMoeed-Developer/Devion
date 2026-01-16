@@ -22,7 +22,7 @@ const User = require('./modals/user')
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
-        console.log("CONNECTION OPEN!!!"+process.env.MONGO_URL)
+        console.log("CONNECTION OPEN!!!")
     })
     .catch(err => {
         console.log("OH NO ERROR!!!!")
@@ -51,7 +51,10 @@ app.use(express.urlencoded({extended : true}))
 
 const store = MongoStore.create({
   mongoUrl: process.env.MONGO_URL,
-  touchAfter: 24 * 3600
+  touchAfter: 24 * 3600,
+  crypto: {
+        secret: process.env.SESSION_SECRET
+    }
 });
 
 store.on("error", function (e) {
