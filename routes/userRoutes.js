@@ -31,7 +31,6 @@ router.post('/signUpForm' , async (req , res , next)=>{
         req.flash('success','Welcome')
         res.redirect('/main')
     })
-    console.log(req.body)
     } catch(e){
         req.flash('error' , e.message)
         res.redirect('/users/signUpForm')
