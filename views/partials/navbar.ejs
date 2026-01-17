@@ -11,7 +11,7 @@
              <a class="nav-link" href="/message">Messages</a>
           </div>
           <div class="navbar-nav ms-auto">
-            <% if(!locals.currentUser) {  %>
+            <% if(!currentUser) {  %>
              <a class="nav-link" href="/users/loginForm">Login</a>
              <a class="nav-link" href="/users/SignUpForm">Sign Up</a>
              <% } else { %>
