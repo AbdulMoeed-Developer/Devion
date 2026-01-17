@@ -27,10 +27,7 @@ mongoose.connect(process.env.MONGO_URL, {
 app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use((req, res, next) => {
-  res.locals.currentUser = null;
-  next();
-});
+
 
 
 // 🔹 Middleware
@@ -68,17 +65,16 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.isLoggedIn = req.isAuthenticated();
+  next();
+});
 
 // 🔹 Flash messages middleware
 app.use((req, res, next) => {
   res.locals.success = req.flash('success') || [];
   res.locals.error = req.flash('error') || [];
-  next();
-});
-
-
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user || null;
   next();
 });
 
