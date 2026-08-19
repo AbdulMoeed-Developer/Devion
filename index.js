@@ -18,7 +18,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./modals/user')
 
-mongoose.connect('mongodb://localhost:27017/social' )
+mongoose.connect(process.env.MONGO_URL )
     .then(() => {
         console.log("CONNECTION OPEN!!!")
     })

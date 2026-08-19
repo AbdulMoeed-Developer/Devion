@@ -2,14 +2,15 @@ const express = require('express');
 const router = express.Router();
 const {TravelImage} = require('../modals/image');
 const multer  = require('multer')
-const {storage} = require('../cloudinary')
+const {storage} = require('../cloudinary');
+const { isLoggedIn } = require('../middleware');
 const upload = multer({ storage });
 
 router.get('/', async (req,res)=>{
     const travelImages = await TravelImage.find() 
     res.render('app/travel' , {travelImages})
 })
-router.post('/' , upload.array('image') , async (req , res)=>{
+router.post('/' ,isLoggedIn, upload.array('image') , async (req , res)=>{
 console.log(req.body)
 const travelImages = new TravelImage({
     description: req.body.imageDescription, // Map the input name to the description field
