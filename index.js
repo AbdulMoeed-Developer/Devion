@@ -11,6 +11,8 @@ const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const session = require('express-session')
+const {MongoStore} = require("connect-mongo");
+
 const flash = require('connect-flash')
 app.use(express.static('public'));
 const methodOverride = require('method-override')
@@ -18,7 +20,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./modals/user')
 
-mongoose.connect(process.env.MONGO_URL )
+mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         console.log("CONNECTION OPEN!!!")
     })
@@ -46,12 +48,28 @@ app.use(express.static('public'));
 
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({extended : true}))
+
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_URL,
+  touchAfter: 24 * 3600
+});
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e);
+});
+
 app.use(session({
-    secret: 'thisshouldbeabettersecret!', // You should replace this with a secure, random string in a production app
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Set secure to true if using HTTPS
+  store,
+  name: "session",
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
 }));
+
 app.use(flash())
 
 app.use(passport.initialize());
@@ -62,15 +80,10 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 
-app.use((req , res , next)=>{
-    res.locals.currentUser = req.user;
-   res.locals.success = req.flash('success');
-   res.locals.error = req.flash('error')
-   next();
-})
 
-
-
+app.get("/", (req, res) => {
+  res.redirect("/main"); // OR res.render("home")
+});
 
 // Use the routes
 app.use('/main', mainRoutes); // Main routes for the homepage or general routes
@@ -98,7 +111,3 @@ app.all(/(.*)/, (req, res, next) => {
      if(!err.message) err.message = "Oh no something went wrong!";
      res.status(statusCode).render('error' , {err} );
  })
-
-app.listen(3000 , ()=>{
-    console.log('on port 3000')
-})
